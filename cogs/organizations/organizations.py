@@ -4,7 +4,7 @@ import cogs.create.create as create
 from config import connection
 from lib import sQl_bot
 from lists import Ogr_post
-
+from random import randrange
 
 class Organiz(commands.Cog): 
     def __init__(self, Bot: discord.Bot):
@@ -15,7 +15,7 @@ class Organiz(commands.Cog):
 
         if sQl_bot.check_users(ctx.author.id, 'id') == None:
             await ctx.response.send_message("Ты еще не создал персонажа. Нажми на заветную кнопку и начни покорять этот мир!!!", view = create.createView(), ephemeral=True)
-        elif ''.join(sQl_bot.check_users(ctx.author.id, 'organization').get('organization')) == ''.join(list(Ogr_post)[0]):
+        elif ''.join(sQl_bot.check_users(ctx.author.id, 'organization')['organization']) == ''.join(list(Ogr_post)[0]):
             embed = discord.Embed(
                 title=f"Вступить в организацию",
                 description="Описание (В разработке)",
@@ -23,14 +23,14 @@ class Organiz(commands.Cog):
             ) 
             await ctx.respond(embed = embed, view = OrganizView(ctx.author.id))
         else:
-            org = sQl_bot.check_users(ctx.author.id, 'organization, org_post')
+            org = sQl_bot.check_users(ctx.author.id, "organization, org_post")
             embed = discord.Embed(
-                title=f"Твоя организация {org.get('organization')}",
-                description=f"Описание (В разработке)\nДолжнось: {org.get('org_post')}",
+                title=f"Твоя организация {org['organization']}",
+                description=f"Описание (В разработке)\nДолжнось: {org['org_post']}",
                 color= 0x1faee9, # цвет твиттера
             ) 
-            qwe = 1
-            await ctx.respond(embed = embed, view = OrganizPanel(ctx.author.id, qwe))
+
+            await ctx.respond(embed = embed, view = OrganizPanel(ctx.author.id, org))
 
 
 class OrganizView(discord.ui.View): # Вызывает панель с выбором организации
@@ -89,7 +89,7 @@ class Organiz_join_View(discord.ui.View): # Вызывает панель с п�
             await interaction.response.send_message(content="Ты не автор сообщения", ephemeral=True)
         else:
             
-            org_post = ''.join(list(Ogr_post.get(self.organization)[0]))
+            org_post = ''.join(list(Ogr_post[self.organization][0]))
             with connection.cursor() as cursor:
                 ogr =(
                         f"""
@@ -119,16 +119,18 @@ class Organiz_join_View(discord.ui.View): # Вызывает панель с п�
             await interaction.response.send_message(embed = embed, view = OrganizView(interaction.user.id))
 
 class OrganizPanel(discord.ui.View): # Вызывает панель с выбором организации
-    def __init__(self, id, ww):
+    def __init__(self, id, org):
         super().__init__()
         self.id = id
-
+        self.org = org
+        
     @discord.ui.button(label = 'Работать', style=discord.ButtonStyle.green) 
     async def organiz_work(self, button, interaction):
         if interaction.user.id != self.id:
             await interaction.response.send_message(content="Ты не автор сообщения", ephemeral=True)
         else:
-            await interaction.response.send_message(f"В разработке...", view = None)
+            payment = Ogr_post
+            await interaction.response.send_message(f"Ты заработал{randrange(1, 100)}", view = None)
 
     @discord.ui.button(label = 'Повышение', style=discord.ButtonStyle.primary) 
     async def organiz_work_up(self, button, interaction):

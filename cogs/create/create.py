@@ -36,31 +36,25 @@ class Create(commands.Cog):
         
 
 
-class createView(discord.ui.View): # Вызывает панель с балансом игрока
+class createView(discord.ui.View): # Создает персонажа
     def __init__(self):
         super().__init__(timeout=None)
             
     @discord.ui.button(label="Создать персонажа", custom_id="create-1", style=discord.ButtonStyle.primary) 
     async def create_button(self, button, interaction):
         try:
-            insert = ("""INSERT INTO `discord`.`users` (`user_id`, `user_name`) 
-                        VALUES (%s, %s);""")
-            insert_string = ''.join(insert)
 
-            with connection:
-                cursor = connection.cursor()
-                cursor.execute(insert_string, (interaction.user.id, interaction.user.name))
-                cursor.fetchone()
-                connection.commit()
-                await interaction.response.send_message('Персонаж создан', ephemeral=True)
+            with connection.cursor() as cursor:
+            
+                cursor.execute("""INSERT INTO users (user_id, user_name) 
+                                VALUES (%s, %s);""", (interaction.user.id, interaction.user.name))   
+                connection.commit()          
+                
+            await interaction.response.send_message('Персонаж создан', ephemeral=True)
 
         except (discord.errors.InteractionResponded, pymysql.err.Error):
             await interaction.response.send_message('Вы уже создавали персонажа ранее', ephemeral=True)
-
-                  
-
-
-
+            
 
 
 def setup(bot):

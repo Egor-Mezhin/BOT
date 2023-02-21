@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import cogs.create.create as create
 from config import connection
-from lib import sQl_bot
+from lib import sQl_bot, check_index
 from lists import Ogr_post
 from random import randrange
 
@@ -90,18 +90,10 @@ class Organiz_join_View(discord.ui.View): # Вызывает панель с п�
         else:
             
             org_post = ''.join(list(Ogr_post[self.organization][0]))
-            with connection.cursor() as cursor:
-                ogr =(
-                        f"""
-                        UPDATE `discord`.`users` 
-                        SET `organization` = '{self.organization}',
-                        `org_post` = '{org_post}'
-                        WHERE `user_id` = '{interaction.user.id}';
-                        """)
-                ogr = cursor.execute(ogr)
-                ogr = cursor.fetchone() 
-                connection.commit()
-
+            sQl_bot.update_users(
+                interaction.user.id,
+                f"""`organization` = '{self.organization}', `org_post` = '{org_post}'"""
+            )
             await interaction.response.send_message(f"Поздравляем вы вступили в организацию", view = None)
             
     @discord.ui.button(emoji = '❌', style=discord.ButtonStyle.gray) 
@@ -129,8 +121,22 @@ class OrganizPanel(discord.ui.View): # Вызывает панель с выбо
         if interaction.user.id != self.id:
             await interaction.response.send_message(content="Ты не автор сообщения", ephemeral=True)
         else:
-            payment = Ogr_post
-            await interaction.response.send_message(f"Ты заработал{randrange(1, 100)}", view = None)
+
+
+            Role = self.org['organization'] # Моя организация
+            rang = self.org['org_post'] # Мой ранг в организации
+            rangs = Ogr_post[Role] #Список рангов моей организации
+
+            index = check_index(rangs, rang) # Поиск индекса моего ранга
+
+            salary = int(rangs[index][rang])
+            user_gems = int(sQl_bot.check_users(interaction.user.id, 'gems')['gems'])
+
+            sQl_bot.update_users(
+                interaction.user.id, 
+                f"""`gems` = '{user_gems + salary}'"""
+                )
+            await interaction.response.send_message(f"Ты заработал{salary}", view = None)
 
     @discord.ui.button(label = 'Повышение', style=discord.ButtonStyle.primary) 
     async def organiz_work_up(self, button, interaction):

@@ -57,23 +57,8 @@ Ogr_post = {
     ],          
 }
 
-Role = "Шахта" 
-rang = "Шахтер"
-rangs = Ogr_post[Role]
-index = 0 
-
-index = 0
-for i in rangs:
-    if list(i) == [rang]:
-        break
-    index += 1
-
-x = rangs[index][rang]
-
-print(x)
-
 # Role = "Шахта" # На повышение
-# Roles = Ogr_post.get(Role)
+# Roles = Ogr_post[Role]
 # index = 0 
 
 # for i in Roles:

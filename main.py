@@ -1,4 +1,5 @@
 import discord
+from discord.ext import commands
 import os 
 from dotenv import load_dotenv
 import cogs.create.create as create
@@ -24,6 +25,12 @@ cogs_list = [
 
 for cog in cogs_list:
     bot.load_extension(f'cogs.{cog}')
+
+
+@bot.command(name = "123", description="321")
+@commands.cooldown(1, 86400, commands.BucketType.user)
+async def message(ctx):
+    await ctx.send("Привет!")
 
 
 bot.run(os.getenv('TOKEN')) 

@@ -6,12 +6,12 @@ count = 1 # Переменная колличества товара
 
 
 resourceName = { # Список эмодзи присвоеных именам опциям в селект меню
-    'Железо': resources.get('iron'),
-    'Древесина': resources.get('organic'),
-    'Органика': resources.get('wood'),
-    'Детали': resources.get('details'),
-    'Батарейки': resources.get('batteries'),
-    'Осколки': resources.get('shards'),
+    'Железо': resources['iron'],
+    'Древесина': resources['organic'],
+    'Органика': resources['wood'],
+    'Детали': resources['details'],
+    'Батарейки': resources['batteries'],
+    'Осколки': resources['shards'],
 } 
 
 class Market(commands.Cog): # Вызывает Рынок
@@ -40,32 +40,32 @@ class MarketView(discord.ui.View): # Селект меню для рынка
                 discord.SelectOption(
                     label="Железо",
                     description=f"Цена: X за штуку",
-                    emoji= resources.get('iron'),
+                    emoji= resources['iron']
                 ),
                 discord.SelectOption(
                     label="Древесина",
                     description=f"Цена: X за штуку",
-                    emoji= resources.get('organic')
+                    emoji= resources['organic']
                 ),
                 discord.SelectOption(
                     label="Органика",
                     description=f"Цена: X за штуку",
-                    emoji= resources.get('wood')
+                    emoji= resources['wood']
                 ),
                 discord.SelectOption(
                     label="Детали",
                     description=f"Цена: X за штуку",
-                    emoji= resources.get('details')
+                    emoji= resources['details']
                 ),
                 discord.SelectOption(
                     label="Батарейки",
                     description=f"Цена: X за штуку",
-                    emoji= resources.get('batteries')
+                    emoji= resources['batteries']
                 ),
                 discord.SelectOption(
                     label="Осколки",
                     description=f"Цена: X за штуку",
-                    emoji= resources.get('shards')
+                    emoji= resources['shards']
                 )
             ]
     )
@@ -75,7 +75,7 @@ class MarketView(discord.ui.View): # Селект меню для рынка
         else:
             global count, selectName, operator # Переменные колличества товара, название выбранного товара + его эмодзи и оператор покупки или продажи
             operator = True
-            selectName = resourceName.get(select.values[0])
+            selectName = resourceName[select.values[0]]
             embed = discord.Embed(
                 title=f"Сколько **{selectName}** вы хотите купить?",
                 description=f"{count}",
@@ -92,32 +92,32 @@ class MarketView(discord.ui.View): # Селект меню для рынка
                 discord.SelectOption(
                     label="Железо",
                     description=f"Цена: X за штуку",
-                    emoji= resources.get('iron')
+                    emoji= resources['iron']
                 ),
                 discord.SelectOption(
                     label="Древесина",
                     description=f"Цена: X за штуку",
-                    emoji= resources.get('organic')
+                    emoji= resources['organic']
                 ),
                 discord.SelectOption(
                     label="Органика",
                     description=f"Цена: X за штуку",
-                    emoji= resources.get('wood')
+                    emoji= resources['wood']
                 ),
                 discord.SelectOption(
                     label="Детали",
                     description=f"Цена: X за штуку",
-                    emoji= resources.get('details')
+                    emoji= resources['details']
                 ),
                 discord.SelectOption(
                     label="Батарейки",
                     description=f"Цена: X за штуку",
-                    emoji= resources.get('batteries')
+                    emoji= resources['batteries']
                 ),
                 discord.SelectOption(
                     label="Осколки",
                     description=f"Цена: X за штуку",
-                    emoji= resources.get('shards')
+                    emoji= resources['shards']
                 )
             ]
     )
@@ -127,7 +127,7 @@ class MarketView(discord.ui.View): # Селект меню для рынка
         else:
             global count, selectName, operator # Переменные колличества товара, название выбранного товара и оператор покупки или продажи
             operator = False
-            selectName = resourceName.get(select.values[0])
+            selectName = resourceName[select.values[0]]
             embed = discord.Embed(
                 title=f"Сколько **{selectName}** вы хотите продать?",
                 description=f"{count}",

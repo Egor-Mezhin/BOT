@@ -29,7 +29,7 @@ class Create(commands.Cog):
 #         embed.set_thumbnail(url = 'attachment://create_th.png')
 #         embed.set_image(url = "attachment://create_img.jpg")
 
-#         embed.set_footer(text="| Обьедененое сообщество SK", icon_url= ctx.guild.icon.url)
+#         embed.set_footer(text="| Обьедененое сообщество SK", icon_url = ctx.guild.icon.url)
 
 #         await ctx.delete()
 #         await ctx.send(files = File, embed = embed, view=createView())

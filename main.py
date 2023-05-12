@@ -1,3 +1,4 @@
+import datetime
 import discord
 from discord.ext import commands
 import os 
@@ -15,22 +16,16 @@ async def on_ready():
     bot.add_view(create.createView())
     bot.add_view(developer.DeveloperView())
 
-cogs_list = [
+cogs_list = (
     'panel.panel',
     'developer.developer',
     'create.create',
     'market.market',
     'organizations.organizations'
-]
+)
 
 for cog in cogs_list:
     bot.load_extension(f'cogs.{cog}')
-
-
-@bot.command(name = "123", description="321")
-@commands.cooldown(1, 86400, commands.BucketType.user)
-async def message(ctx):
-    await ctx.send("Привет!")
 
 
 bot.run(os.getenv('TOKEN')) 

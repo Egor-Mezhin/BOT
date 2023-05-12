@@ -13,8 +13,9 @@ class PanelView(discord.ui.View): # Вызывает панель с балан�
         if interaction.user.id != self.id:
             await interaction.response.send_message(content="Ты не автор сообщения", ephemeral=True)
         else:
-            balance = sQl_bot.check_users(
+            balance = sQl_bot.check_table(
                 interaction.user.id,
+                'users',
                 f"""
                 gems as '{resources.get('gems')}',
                 iron as '{resources.get('iron')}',

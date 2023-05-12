@@ -1,0 +1,20 @@
+----------------
+# Вставить данные из одной таблицы в другую
+
+Пример 1
+INSERT INTO table2 (colum2)
+SELECT colum1
+FROM table1
+LEFT JOIN table2
+ON colum1 = colum2
+WHERE colum2 IS NULL;
+
+Пример 2
+INSERT INTO discord.user_cd (user_id)
+SELECT users.user_id
+FROM discord.users
+LEFT JOIN discord.user_cd
+ON users.user_id = user_cd.user_id
+WHERE user_cd.user_id IS NULL;
+
+----------------

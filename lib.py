@@ -4,23 +4,23 @@ from config import connection
 
 # from config import connection 
 class sQl_bot:
-    def check_users(user_id, colum):
+    def check_table(user_id, table, colum):
 
         with connection.cursor() as cursor: 
             select =( f"""
                         SELECT {colum} 
-                        FROM users 
+                        FROM {table}
                         WHERE `user_id` = '{user_id}';
             """)
             select = cursor.execute(select)
             select = cursor.fetchone()
         return select
     
-    def update_users(user_id, SET): 
+    def update_table(user_id, table, SET): 
 
         with connection.cursor() as cursor: 
             select = ( f"""
-                        UPDATE users 
+                        UPDATE {table} 
                         SET {SET} 
                         WHERE `user_id` = {user_id};""")
             cursor.execute(select)

@@ -45,9 +45,14 @@ class createView(discord.ui.View): # Создает персонажа
         try:
 
             with connection.cursor() as cursor:
-            
-                cursor.execute("""INSERT INTO users (user_id, user_name) 
-                                VALUES (%s, %s);""", (interaction.user.id, interaction.user.name))   
+                
+                cursor.execute("""
+                        INSERT INTO users (user_id, user_name) 
+                        VALUES (%s, %s);""", (interaction.user.id, interaction.user.name))   
+                
+                cursor.execute("""
+                        INSERT INTO user_cd (user_id) 
+                        VALUES (%s);""", (interaction.user.id))  
                 connection.commit()          
                 
             await interaction.response.send_message('Персонаж создан', ephemeral=True)

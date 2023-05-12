@@ -9,7 +9,7 @@ class Panel(commands.Cog):
     def __init__(self, Bot: discord.Bot):
         self.Bot = Bot
 
-    @discord.slash_command(name = "профиль", description="показывает свой профиль") 
+    @discord.slash_command(name = "профиль", description="показывает твой профиль") 
     async def profile(self, ctx):
         try:
             with connection.cursor() as cursor:

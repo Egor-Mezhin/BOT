@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
-from config import connection
 from lists import resources
+from lib import checks
 count = 1 # Переменная колличества товара
 
 
@@ -70,8 +70,9 @@ class MarketView(discord.ui.View): # Селект меню для рынка
             ]
     )
     async def select_buy(self, select, interaction):
-        if interaction.user.id != self.id:
-            await interaction.response.send_message(content="Ты не автор сообщения", ephemeral=True)
+        c_author = checks.check_author(interaction.user.id, self.id)
+        if c_author[0]:
+            await c_author[1]
         else:
             global count, selectName, operator # Переменные колличества товара, название выбранного товара + его эмодзи и оператор покупки или продажи
             operator = True
@@ -122,8 +123,9 @@ class MarketView(discord.ui.View): # Селект меню для рынка
             ]
     )
     async def select_sell(self, select, interaction):
-        if interaction.user.id != self.id:
-            await interaction.response.send_message(content="Ты не автор сообщения", ephemeral=True)
+        c_author = checks.check_author(interaction.user.id, self.id)
+        if c_author[0]:
+            await c_author[1]
         else:
             global count, selectName, operator # Переменные колличества товара, название выбранного товара и оператор покупки или продажи
             operator = False
@@ -143,8 +145,9 @@ class СalculatorView(discord.ui.View): # Кнопки калькулятора 
 
     @discord.ui.button(label="+1", style=discord.ButtonStyle.primary, row=1) 
     async def buysell_button_p1(self, button, interaction):
-        if interaction.user.id != self.id:
-            await interaction.response.send_message(content="Ты не автор сообщения", ephemeral=True)
+        c_author = checks.check_author(interaction.user.id, self.id)
+        if c_author[0]:
+            await c_author[1]
         else:
             global count, selectName, operator
             count += 1
@@ -158,8 +161,9 @@ class СalculatorView(discord.ui.View): # Кнопки калькулятора 
 
     @discord.ui.button(label="+10", style=discord.ButtonStyle.primary, row=1) 
     async def buysell_button_p10(self, button, interaction):
-        if interaction.user.id != self.id:
-            await interaction.response.send_message(content="Ты не автор сообщения", ephemeral=True)
+        c_author = checks.check_author(interaction.user.id, self.id)
+        if c_author[0]:
+            await c_author[1]
         else:
             global count, selectName, operator
             count += 10
@@ -173,8 +177,9 @@ class СalculatorView(discord.ui.View): # Кнопки калькулятора 
 
     @discord.ui.button(label="+100", style=discord.ButtonStyle.primary, row=1) 
     async def buysell_button_p100(self, button, interaction):
-        if interaction.user.id != self.id:
-            await interaction.response.send_message(content="Ты не автор сообщения", ephemeral=True)
+        c_author = checks.check_author(interaction.user.id, self.id)
+        if c_author[0]:
+            await c_author[1]
         else:
             global count, selectName, operator
             count += 100
@@ -188,8 +193,9 @@ class СalculatorView(discord.ui.View): # Кнопки калькулятора 
     
     @discord.ui.button(style=discord.ButtonStyle.green, emoji = "🪙", row=1) # emoji монетки
     async def buysell_button(self, button, interaction):
-        if interaction.user.id != self.id:
-            await interaction.response.send_message(content="Ты не автор сообщения", ephemeral=True)
+        c_author = checks.check_author(interaction.user.id, self.id)
+        if c_author[0]:
+            await c_author[1]
         else:
             global count, selectName, operator, operator
 
@@ -211,8 +217,9 @@ class СalculatorView(discord.ui.View): # Кнопки калькулятора 
 
     @discord.ui.button(label="-1", style=discord.ButtonStyle.primary, row=2) 
     async def buysell_button_m1(self, button, interaction):
-        if interaction.user.id != self.id:
-            await interaction.response.send_message(content="Ты не автор сообщения", ephemeral=True)
+        c_author = checks.check_author(interaction.user.id, self.id)
+        if c_author[0]:
+            await c_author[1]
         else:
             global count, selectName, operator
             if count - 1 < 1:
@@ -229,8 +236,9 @@ class СalculatorView(discord.ui.View): # Кнопки калькулятора 
 
     @discord.ui.button(label="-10", style=discord.ButtonStyle.primary, row=2) 
     async def buysell_button_m10(self, button, interaction):
-        if interaction.user.id != self.id:
-            await interaction.response.send_message(content="Ты не автор сообщения", ephemeral=True)
+        c_author = checks.check_author(interaction.user.id, self.id)
+        if c_author[0]:
+            await c_author[1]
         else:
             global count, selectName, operator
             if count - 10 < 1:
@@ -247,8 +255,9 @@ class СalculatorView(discord.ui.View): # Кнопки калькулятора 
 
     @discord.ui.button(label="-100", style=discord.ButtonStyle.primary, row=2) 
     async def buysell_button_m100(self, button, interaction):
-        if interaction.user.id != self.id:
-            await interaction.response.send_message(content="Ты не автор сообщения", ephemeral=True)
+        c_author = checks.check_author(interaction.user.id, self.id)
+        if c_author[0]:
+            await c_author[1]
         else:
             global count, selectName, operator
             if count - 100 < 1:
